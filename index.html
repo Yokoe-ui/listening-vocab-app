@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英単語帳アプリ</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="app-header">
+  <h1>英単語帳アプリ</h1>
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="list">単語登録・一覧</button>
+    <button class="tab-btn" data-tab="test">テスト</button>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ 単語登録・一覧タブ ============ -->
+  <section id="tab-list" class="tab-panel active">
+    <div class="card">
+      <h2>単語を登録</h2>
+      <form id="word-form">
+        <div class="form-row">
+          <label for="input-english">英単語 <span class="required">必須</span></label>
+          <input type="text" id="input-english" placeholder="例: apple" required>
+        </div>
+        <div class="form-row">
+          <label for="input-japanese">日本語訳 <span class="optional">任意</span></label>
+          <input type="text" id="input-japanese" placeholder="例: りんご">
+        </div>
+        <div class="form-row">
+          <label>発音の録音 <span class="required">必須</span></label>
+          <div class="recorder">
+            <button type="button" id="btn-record" class="btn btn-record">● 録音開始</button>
+            <span id="record-status" class="record-status"></span>
+            <audio id="preview-audio" controls style="display:none;"></audio>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">保存する</button>
+          <button type="button" id="btn-cancel-edit" class="btn btn-ghost" style="display:none;">編集をキャンセル</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="list-header">
+        <h2>単語一覧 <span id="word-count" class="count-badge"></span></h2>
+        <button type="button" id="btn-reset-all" class="btn btn-ghost btn-small">すべてのステータスをリセット</button>
+      </div>
+      <div id="word-list" class="word-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ テストタブ ============ -->
+  <section id="tab-test" class="tab-panel">
+    <div class="card" id="test-setup">
+      <h2>テスト設定</h2>
+      <div class="form-row">
+        <label>出題範囲</label>
+        <div class="radio-group">
+          <label class="radio-label"><input type="radio" name="test-scope" value="unknown" checked> 未暗記の単語のみ</label>
+          <label class="radio-label"><input type="radio" name="test-scope" value="all"> すべて(暗記済みを含む)</label>
+        </div>
+      </div>
+      <p id="test-scope-info" class="hint"></p>
+      <button type="button" id="btn-start-test" class="btn btn-primary">テストを開始</button>
+    </div>
+
+    <div class="card" id="test-runner" style="display:none;">
+      <div class="test-progress">
+        <span id="test-progress-text"></span>
+        <div class="progress-bar"><div id="progress-bar-fill" class="progress-bar-fill"></div></div>
+      </div>
+
+      <div class="test-card">
+        <button type="button" id="btn-play-audio" class="btn btn-play">🔊 発音を再生</button>
+        <audio id="test-audio"></audio>
+
+        <div id="reveal-area" class="reveal-area">
+          <button type="button" id="btn-reveal" class="btn btn-secondary">単語を確認する</button>
+        </div>
+
+        <div id="answer-area" class="answer-area" style="display:none;">
+          <div class="word-display">
+            <p class="word-en" id="reveal-english"></p>
+            <p class="word-ja" id="reveal-japanese"></p>
+          </div>
+          <div class="judge-buttons">
+            <button type="button" id="btn-known" class="btn btn-known">知ってる</button>
+            <button type="button" id="btn-unknown" class="btn btn-unknown">知らない</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="test-result" style="display:none;">
+      <h2>テスト結果</h2>
+      <div class="result-summary">
+        <div class="result-stat known"><span id="result-known-count">0</span><span>知ってる</span></div>
+        <div class="result-stat unknown"><span id="result-unknown-count">0</span><span>知らない</span></div>
+      </div>
+      <div id="result-unknown-list" class="result-list"></div>
+      <div class="form-actions">
+        <button type="button" id="btn-retest" class="btn btn-primary">もう一度テストする</button>
+        <button type="button" id="btn-back-to-list" class="btn btn-ghost">単語一覧に戻る</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
