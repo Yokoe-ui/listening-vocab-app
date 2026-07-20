@@ -430,3 +430,7 @@ function resetTestUI() {
 // ============ Init ============
 loadWords();
 updateTestScopeInfo();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
